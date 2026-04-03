@@ -10,16 +10,16 @@ import { errMsg } from '@/services/api'
 
 // ── LOGIN ─────────────────────────────────────────
 const loginSchema = z.object({
-  email:    z.string().email('Invalid email'),
+  email: z.string().email('Invalid email'),
   password: z.string().min(1, 'Required'),
 })
 type LoginForm = z.infer<typeof loginSchema>
 
 export function LoginPage() {
   const { setAuth } = useAuthStore()
-  const navigate    = useNavigate()
-  const location    = useLocation()
-  const from        = (location.state as { from?: { pathname: string } })?.from?.pathname || '/'
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/'
 
   const {
     register,
@@ -31,8 +31,9 @@ export function LoginPage() {
     mutationFn: authApi.login,
     onSuccess: ({ user, accessToken }) => {
       setAuth(user, accessToken)
+      console.log(user.role);
       toast(`Welcome back, ${user.firstName}!`, 'success')
-      if (user.role === 'admin') {
+      if (user.role.toLowerCase() === 'admin') {
         navigate('/admin', { replace: true })
       } else {
         navigate(from, { replace: true })
@@ -111,7 +112,7 @@ export function LoginPage() {
             </p>
           </div>
 
-          
+
         </div>
 
       </div>
@@ -122,15 +123,15 @@ export function LoginPage() {
 // ── REGISTER ──────────────────────────────────────
 const registerSchema = z.object({
   firstName: z.string().min(1, 'Required'),
-  lastName:  z.string().min(1, 'Required'),
-  email:     z.string().email('Invalid email'),
-  password:  z.string().min(8, 'At least 8 characters'),
+  lastName: z.string().min(1, 'Required'),
+  email: z.string().email('Invalid email'),
+  password: z.string().min(8, 'At least 8 characters'),
 })
 type RegisterForm = z.infer<typeof registerSchema>
 
 export function RegisterPage() {
   const { setAuth } = useAuthStore()
-  const navigate    = useNavigate()
+  const navigate = useNavigate()
 
   const {
     register,
@@ -140,7 +141,7 @@ export function RegisterPage() {
 
   const m = useMutation({
     mutationFn: authApi.register,
-    onSuccess:  ({ user, accessToken }) => {
+    onSuccess: ({ user, accessToken }) => {
       setAuth(user, accessToken)
       toast(`Welcome, ${user.firstName}!`, 'success')
       navigate('/')

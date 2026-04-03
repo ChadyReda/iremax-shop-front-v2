@@ -26,13 +26,13 @@ export const useAuthStore = create<AuthState>()(
           user,
           accessToken,
           isAuthenticated: true,
-          isAdmin: user.role === 'admin',
+          isAdmin: user.role.toLowerCase() === 'admin',
         }),
 
       setAccessToken: (accessToken) => set({ accessToken }),
 
       setUser: (user) =>
-        set({ user, isAdmin: user.role === 'admin' }),
+        set({ user, isAdmin: user.role.toLowerCase() === 'admin' }),
 
       logout: () =>
         set({
