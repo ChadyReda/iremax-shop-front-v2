@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useAuthStore } from '@/store/auth'
 
 export const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://iremax-shop-back-v2.vercel.app/api',
   withCredentials: true,
   timeout: 15000,
 })
