@@ -44,8 +44,8 @@ export function OrdersPage() {
           <div className="space-y-4">
             {data.data.map((order) => (
               <Link
-                key={order.id}
-                to={`/orders/${order.id}`}
+                key={order._id}
+                to={`/orders/${order._id}`}
                 className="block bg-white border border-stone-100 p-5 hover:border-stone-300 transition-colors"
               >
                 <div className="flex items-start justify-between gap-4 flex-wrap">

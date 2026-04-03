@@ -8,6 +8,7 @@ interface WishlistStore {
   set:      (items: Product[]) => void
   toggle:   (product: Product) => void
   includes: (productId: string) => boolean
+  clear:    () => void
 }
 
 export const useWishlistStore = create<WishlistStore>()(
@@ -16,18 +17,19 @@ export const useWishlistStore = create<WishlistStore>()(
       items: [],
       set:   (items: Product[]) => set({ items }),
       toggle: async (product: Product) => {
-        const exists = get().items.some((p) => p.id === product.id)
+        const id = product.id || product._id
+        const exists = get().items.some((p) => (p.id || p._id) === id)
         if (exists) {
-          await wishlistApi.remove(product.id)
-          set({ items: get().items.filter((p) => p.id !== product.id) })
+          await wishlistApi.remove(id)
+          set({ items: get().items.filter((p) => (p.id || p._id) !== id) })
         } else {
-          await wishlistApi.add(product.id)
-          // Fetch full product details to ensure we have all data
-          const fullProduct = await productApi.byId(product.id)
+          await wishlistApi.add(id)
+          const fullProduct = await productApi.byId(id)
           set({ items: [...get().items, fullProduct] })
         }
       },
-      includes: (productId: string) => get().items.some((p) => p.id === productId),
+      includes: (productId: string) => get().items.some((p) => (p.id || p._id) === productId),
+      clear:    () => set({ items: [] }),
     }),
     { name: 'wishlist' }
   )

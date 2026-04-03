@@ -111,7 +111,7 @@ export default function Header() {
                 onMouseEnter={() => setDrop(item.label)}
                 onMouseLeave={() => setDrop(null)}
               >
-                {'children' in item ? (
+                {'children' in item && item.children ? (
                   <>
                     <button className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-900 font-medium transition-colors">
                       {item.label}
@@ -139,7 +139,7 @@ export default function Header() {
                   </>
                 ) : (
                   <Link
-                    to={item.href}
+                    to={(item as any).href}
                     className="text-sm text-stone-500 hover:text-stone-900 font-medium transition-colors"
                   >
                     {item.label}
@@ -251,7 +251,7 @@ export default function Header() {
           <div className="page py-5 space-y-1">
             {NAV.map((item) => (
               <div key={item.label}>
-                {'children' in item ? (
+                {'children' in item && item.children ? (
                   <>
                     <p className="text-xs uppercase tracking-widest text-stone-400 font-medium mt-4 mb-2">
                       {item.label}
@@ -269,7 +269,7 @@ export default function Header() {
                   </>
                 ) : (
                   <Link
-                    to={item.href}
+                    to={(item as any).href}
                     className="block py-1.5 text-sm font-medium text-stone-900"
                     onClick={() => setMobileOpen(false)}
                   >

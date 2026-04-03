@@ -32,7 +32,7 @@ export function LoginPage() {
     onSuccess: ({ user, accessToken }) => {
       setAuth(user, accessToken)
       toast(`Welcome back, ${user.firstName}!`, 'success')
-      if (user.role === 'ADMIN' || user.role === 'admin') {
+      if (user.role === 'admin') {
         navigate('/admin', { replace: true })
       } else {
         navigate(from, { replace: true })

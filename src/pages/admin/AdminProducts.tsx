@@ -177,7 +177,7 @@ function ProductModal({
     sku:              product?.sku              || '',
     shortDescription: product?.shortDescription || '',
     description:      product?.description      || '',
-    categoryId:       product?.category?.id     || '',
+    categoryId:       product?.category?._id     || '',
     brand:            product?.brand            || '',
     price:          product?.price            || '',
     compareAtPrice: product?.compareAtPrice   || '',

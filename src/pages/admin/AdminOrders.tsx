@@ -122,7 +122,7 @@ export default function AdminOrders() {
           </thead>
           <tbody className="divide-y divide-stone-50">
             {data?.data.map((o) => (
-              <tr key={o.id} className="hover:bg-stone-50">
+              <tr key={o._id} className="hover:bg-stone-50">
 
                 {/* Order # */}
                 <td className="px-4 py-3 font-mono text-xs font-medium text-stone-900 whitespace-nowrap">
@@ -208,7 +208,7 @@ export default function AdminOrders() {
                   <select
                     value={o.status}
                     onChange={(e) =>
-                      statusM.mutate({ id: o.id, s: e.target.value })
+                      statusM.mutate({ id: o._id, s: e.target.value })
                     }
                     disabled={statusM.isPending}
                     className="input text-xs py-1.5 appearance-none w-32"
