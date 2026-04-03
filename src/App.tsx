@@ -2,7 +2,9 @@ import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { useAuthStore } from '@/store/auth'
 import { useWishlistStore } from '@/store/wishlist'
+import { ScrollToTop } from '@/components/layout/ScrollToTop'
 import MainLayout from '@/components/layout/MainLayout'
+
 import AdminLayout from '@/components/layout/AdminLayout'
 import { ProtectedRoute, AdminRoute } from '@/components/layout/RouteGuards'
 import { Spinner } from '@/components/ui/Spinner'
@@ -29,6 +31,7 @@ export default function App() {
 
   return (
     <Suspense fallback={<Spinner full />}>
+      <ScrollToTop />
       <Routes>
 
         {/* Auth pages — no header/footer */}
