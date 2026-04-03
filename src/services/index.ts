@@ -225,18 +225,4 @@ export const reviewApi = {
       .then((r) => r.data.data),
 }
 
-// ── WISHLIST ──────────────────────────────────────
-export const wishlistApi = {
-  get: () =>
-    api.get<ApiRes<Product[]>>('/wishlist').then((r) => r.data.data),
-
-  add: (productId: string) =>
-    api
-      .post<ApiRes<any>>(`/wishlist/${productId}`)
-      .then((r) => r.data.data),
-
-  remove: (productId: string) =>
-    api
-      .delete<ApiRes<any>>(`/wishlist/${productId}`)
-      .then((r) => r.data.data),
-}
+

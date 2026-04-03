@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { useAuthStore } from '@/store/auth'
 import { useWishlistStore } from '@/store/wishlist'
-import { wishlistApi } from '@/services'
 import MainLayout from '@/components/layout/MainLayout'
 import AdminLayout from '@/components/layout/AdminLayout'
 import { ProtectedRoute, AdminRoute } from '@/components/layout/RouteGuards'
@@ -26,15 +25,7 @@ const AdminUsers      = lazy(() => import('@/pages/admin/AdminUsers'))
 
 export default function App() {
   const { isAuthenticated } = useAuthStore()
-  const setWishlist = useWishlistStore((s) => s.set)
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      wishlistApi.get()
-        .then(setWishlist)
-        .catch(err => console.error('Failed to fetch wishlist:', err))
-    }
-  }, [isAuthenticated, setWishlist])
 
   return (
     <Suspense fallback={<Spinner full />}>
@@ -50,8 +41,8 @@ export default function App() {
           <Route path="/shop"           element={<ShopPage />} />
           <Route path="/products/:slug" element={<ProductPage />} />
 
+          <Route path="/wishlist" element={<WishlistPage />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/cart"       element={<CheckoutPage />} />
             <Route path="/checkout"   element={<CheckoutPage />} />
             <Route path="/orders"     element={<OrdersPage />} />
