@@ -46,9 +46,8 @@ function Filters({ cats, hasFilters, clearAll, category, set, price, setPrice, s
         <div className="space-y-1">
           <button
             onClick={() => set('category', null)}
-            className={`block text-sm py-1 w-full text-left ${
-              !category ? 'text-stone-900 font-medium' : 'text-stone-500 hover:text-stone-900'
-            }`}
+            className={`block text-sm py-1 w-full text-left ${!category ? 'text-stone-900 font-medium' : 'text-stone-500 hover:text-stone-900'
+              }`}
           >
             All Products
           </button>
@@ -56,11 +55,10 @@ function Filters({ cats, hasFilters, clearAll, category, set, price, setPrice, s
             <button
               key={c._id}
               onClick={() => set('category', c.slug === category ? null : c.slug)}
-              className={`block text-sm py-1 w-full text-left ${
-                c.slug === category
+              className={`block text-sm py-1 w-full text-left ${c.slug === category
                   ? 'text-stone-900 font-medium'
                   : 'text-stone-500 hover:text-stone-900'
-              }`}
+                }`}
             >
               {c.name}
             </button>
@@ -98,11 +96,10 @@ function Filters({ cats, hasFilters, clearAll, category, set, price, setPrice, s
             <button
               key={s}
               onClick={() => toggleSize(s)}
-              className={`px-3 py-1.5 text-xs border transition-colors ${
-                sizes.includes(s)
+              className={`px-3 py-1.5 text-xs border transition-colors ${sizes.includes(s)
                   ? 'bg-stone-900 text-white border-stone-900'
                   : 'border-stone-200 text-stone-600 hover:border-stone-400'
-              }`}
+                }`}
             >
               {s}
             </button>
@@ -115,7 +112,7 @@ function Filters({ cats, hasFilters, clearAll, category, set, price, setPrice, s
         <p className="label mb-3">Quick Filters</p>
         <div className="space-y-2">
           {[
-            ['featured',   'Featured Only'],
+            ['featured', 'Featured Only'],
             ['newArrival', 'New Arrivals'],
           ].map(([k, l]) => (
             <label key={k} className="flex items-center gap-2 cursor-pointer">
@@ -137,10 +134,10 @@ function Filters({ cats, hasFilters, clearAll, category, set, price, setPrice, s
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '36', '37', '38', '39', '40']
 
 const SORTS = [
-  { v: 'newest',     l: 'Newest' },
-  { v: 'popular',    l: 'Most Popular' },
-  { v: 'rating',     l: 'Top Rated' },
-  { v: 'price_asc',  l: 'Price ↑' },
+  { v: 'newest', l: 'Newest' },
+  { v: 'popular', l: 'Most Popular' },
+  { v: 'rating', l: 'Top Rated' },
+  { v: 'price_asc', l: 'Price ↑' },
   { v: 'price_desc', l: 'Price ↓' },
 ]
 
@@ -150,15 +147,15 @@ export default function ShopPage() {
 
   const get = (k: string) => params.get(k) || undefined
 
-  const category   = get('category')
-  const search     = get('search')
-  const sort       = (get('sort') || 'newest') as ProductFilters['sort']
-  const page       = parseInt(params.get('page') || '1')
-  const featured   = params.get('featured') === 'true'
+  const category = get('category')
+  const search = get('search')
+  const sort = (get('sort') || 'newest') as ProductFilters['sort']
+  const page = parseInt(params.get('page') || '1')
+  const featured = params.get('featured') === 'true'
   const newArrival = params.get('newArrival') === 'true'
-  const sizes      = params.get('sizes')?.split(',').filter(Boolean) ?? []
-  const minPrice   = params.get('minPrice') ? Number(params.get('minPrice')) : undefined
-  const maxPrice   = params.get('maxPrice') ? Number(params.get('maxPrice')) : undefined
+  const sizes = params.get('sizes')?.split(',').filter(Boolean) ?? []
+  const minPrice = params.get('minPrice') ? Number(params.get('minPrice')) : undefined
+  const maxPrice = params.get('maxPrice') ? Number(params.get('maxPrice')) : undefined
 
 
 
@@ -168,22 +165,22 @@ export default function ShopPage() {
     sort,
     page,
     limit: 20,
-    featured:   featured   || undefined,
+    featured: featured || undefined,
     newArrival: newArrival || undefined,
-    sizes:      sizes.length ? sizes : undefined,
+    sizes: sizes.length ? sizes : undefined,
     minPrice,
     maxPrice,
   }
 
   const { data, isLoading, isFetching } = useQuery({
-    queryKey:        ['products', filters],
-    queryFn:         () => productApi.list(filters),
+    queryKey: ['products', filters],
+    queryFn: () => productApi.list(filters),
     placeholderData: (p) => p,
   })
 
   const { data: cats } = useQuery({
     queryKey: ['categories'],
-    queryFn:  categoryApi.list,
+    queryFn: categoryApi.list,
   })
 
   const [price, setPrice] = useState({ min: minPrice, max: maxPrice })
@@ -195,7 +192,8 @@ export default function ShopPage() {
   const set = (k: string, v: string | null) => {
     const n = new URLSearchParams(params)
     v ? n.set(k, v) : n.delete(k)
-    n.delete('page')
+    // Only reset page if we're setting something other than page
+    if (k !== 'page') n.delete('page')
     setParams(n)
   }
 
@@ -206,7 +204,7 @@ export default function ShopPage() {
     }, 700) // Debounce delay
 
     return () => clearTimeout(handler)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [price])
 
   const toggleSize = (s: string) => {
@@ -229,10 +227,10 @@ export default function ShopPage() {
   const title = search
     ? `"${search}"`
     : category
-    ? cats?.find((c) => c.slug === category)?.name || category
-    : featured    ? 'Featured'
-    : newArrival  ? 'New Arrivals'
-    : 'All Products'
+      ? cats?.find((c) => c.slug === category)?.name || category
+      : featured ? 'Featured'
+        : newArrival ? 'New Arrivals'
+          : 'All Products'
 
 
 
@@ -317,9 +315,8 @@ export default function ShopPage() {
           ) : (
             <>
               <div
-                className={`transition-opacity duration-200 ${
-                  isFetching ? 'opacity-60' : ''
-                } product-grid`}
+                className={`transition-opacity duration-200 ${isFetching ? 'opacity-60' : ''
+                  } product-grid`}
               >
                 {data.data.map((p, i) => (
                   <ProductCard key={p.id} product={p} delay={i * 40} />
